@@ -1,19 +1,38 @@
 import EventHub from '../src/index'
 
-const eventHub = new EventHub
 
-eventHub.on('click', (content) => {
-    console.log(content);
-})
+const test1 = () => {
+    const eventHub = new EventHub
+    console.assert(eventHub instanceof Object === true, 'eventhub is an Object')
+}
 
-eventHub.emit('click', 'i clicked!')
+const test2 = () => {
+    const eventHub = new EventHub
+    const content = 'i clicked!'
+    let called = false
+    eventHub.on('click', (text) => {
+        called = true
+        console.assert(text === content, 'add sub');
+    })
+    eventHub.emit('click', content)
+    setTimeout(() => {
+        console.assert(called === true, 'add sub')
+    }, 0);
+}
 
-const eventHub2 = new EventHub
-let called = false
-const fn1 = () => { called = true; }
-eventHub.on('sub', fn1)
-eventHub.off('sub', fn1)
-eventHub.emit('sub')
-setTimeout(() => {
-    console.log(called);
-}, 1000);
+const test3 = () => {
+    const eventHub = new EventHub
+    let called = false
+    const fn1 = () => { called = true; }
+    eventHub.on('sub', fn1)
+    eventHub.off('sub', fn1)
+    eventHub.emit('sub')
+    setTimeout(() => {
+        console.assert(called === false, 'on&off sub');
+    }, 0);
+}
+
+
+test1()
+test2()
+test3()

@@ -1,5 +1,5 @@
 class EventHub {
-    cache = {}
+    private cache = {}
     on(eventName: string, fn) {
         this.cache[eventName] = this.cache[eventName] || [];
         (this.cache[eventName]).push(fn)
